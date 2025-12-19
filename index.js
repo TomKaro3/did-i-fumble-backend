@@ -76,9 +76,13 @@ Keep it meme-worthy and concise.
       temperature: 0.7,
     });
 
-    const result = response.choices[0].message.content;
+    let result = response.choices[0].message.content;
+
+    // 🔥 Strip markdown code fences if present
+    result = result.replace(/```json/g, "").replace(/```/g, "").trim();
 
     res.json(JSON.parse(result));
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Analysis failed" });
